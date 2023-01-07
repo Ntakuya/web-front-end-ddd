@@ -1,6 +1,15 @@
 version: '3.9'
 
 services:
+  api_server:
+    build: ./api
+    container_name: api_server
+    tty: true
+    restart: always
+    volumes:
+      - ./api:/usr/src/app
+    networks:
+      - local
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.5.3
     container_name: elasticsearch
@@ -12,6 +21,8 @@ services:
     environment:
       - xpack.security.enabled=false
       - discovery.type=single-node
+    volumes:
+      - elasticsearchdata:/usr/share/elasticsearch/data
   kibana:
     image: docker.elastic.co/kibana/kibana:8.5.3
     container_name: kibana
@@ -21,9 +32,13 @@ services:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     networks:
       - local
+    volumes:
+      - kibanadata:/usr/share/kibana/config
 
 volumes:
   pgdata: {}
+  elasticsearchdata: {}
+  kibanadata: {}
 
 networks:
   local: {}
