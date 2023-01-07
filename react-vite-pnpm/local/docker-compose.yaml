@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  database:
+    build:
+      context: ./database
+      dockerfile: postgresql.dockerfile
+    container_name: database
+    tty: true
+    restart: "always"
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=todos
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - local
+  databasecache:
+    build:
+      context: ./database-cache
+      dockerfile: memcached.dockerfile
+    tty: true
+    restart: "always"
+    ports:
+      - 11211:11211
+
+volumes:
+  pg_data: {}
+
+networks:
+  local: {}
