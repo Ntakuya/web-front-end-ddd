@@ -66,11 +66,20 @@ package.json を変更する。cloud functions を build や local で server �
 ## 3. cloud functions の作成
 
 ```src/index.ts
-import * as ff from '@google-cloud/functions-framework';
+import * as ff from '@google-cloud/functions-framework'
+import type { Request, Response } from '@google-cloud/functions-framework'
+import { typescriptFunctionHandler } from './handlers/typescript-function-handler'
 
-ff.http('TypescriptFunction', (req: ff.Request, res: ff.Response) => {
-  res.send('ok!');
-});
+ff.http('typescriptFunction', (req: Request, res: Response) => {
+  const result = typescriptFunctionHandler()
+  res.send(result)
+})
+```
+
+```src/hanlders/typescript-functions-hanlder.ts
+export const typescriptFunctionHandler = () => {
+  return 'file changed!!'
+}
 ```
 
 ```terminal
@@ -104,12 +113,10 @@ ff.http('TypescriptFunction', (req: ff.Request, res: ff.Response) => {
 
 [http://localhost:8080/](http://localhost:8080/)で,file changed 表示されたら、ファイルの変更検知が有効になっているか確認します。
 
-```src/index.ts
-import * as ff from '@google-cloud/functions-framework';
-
-ff.http('TypescriptFunction', (req: ff.Request, res: ff.Response) => {
-  res.send('file chanegd!!');
-});
+```src/hanlders/typescript-functions-hanlder.ts
+export const typescriptFunctionHandler = () => {
+  return 'file changed!!'
+}
 ```
 
 ## 5. formatter を追加
@@ -126,27 +133,32 @@ ff.http('TypescriptFunction', (req: ff.Request, res: ff.Response) => {
 
 ```terminal
 % npm init @eslint/config
-% vi .eslintrc.json
+% vi .eslintrc.js
 ```
 
-```.eslintrc.json
-{
-  "env": {
-    "browser": true,
-    "es2021": true,
-    "node": true
+```.eslintrc.js
+module.exports = {
+  env: {
+    browser: true,
+    es2021: true,
+    node: true,
   },
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
-  "extends": "standard-with-typescript",
-  "overrides": [],
-  "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module",
-    "project": ["./tsconfig.json"]
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint'],
+  extends: 'standard-with-typescript',
+  overrides: [],
+  parserOptions: {
+    sourceType: 'module',
+    tsconfigRootDir: __dirname,
   },
-  "rules": { "quotes": ["error", "single"] }
+  rules: {
+    quotes: ['error', 'single'],
+    'no-var': ['warn'],
+    'sort-imports': ['warn'],
+    'comma-dangle': [''],
+  },
 }
+
 ```
 
 package.json のコマンドを追加して、linter を鵜がかせるように実施していきます。
