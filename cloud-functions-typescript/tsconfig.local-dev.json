@@ -1,0 +1,10 @@
+{
+  "include": ["local-dev/**/*"],
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "strict": true,
+    "outDir": "dist/local-dev"
+  },
+  "exclude": ["node_modules"]
+}

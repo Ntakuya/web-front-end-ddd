@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  cloud_tasks:
+    container_name: cloud_tasks_container
+    build:
+      context: ./docker
+      dockerfile: cloud-tasks.dockerfile
+    ports:
+      - '9090:9090'
+    restart: 'always'
+    command: gcloud-tasks-emulator start --port=9090
+    networks:
+      - local
+
+networks:
+  local: {}
