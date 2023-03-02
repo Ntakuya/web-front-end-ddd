@@ -5,21 +5,24 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc-watch --onSuccess 'functions-framework --target=TypescriptFunction'",
-    "start": "functions-framework --target=TypescriptFunction",
+    "dev": "tsc-watch --onSuccess 'functions-framework --target=typescriptFunction'",
+    "start": "functions-framework --target=typescriptFunction",
     "prestart": "build",
     "gcp-build": "build",
     "lint": "eslint \"src/**/*.{js,ts}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,ts}\"",
     "format": "prettier --write \"src/**/*.{js,ts}\"",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "local:setup": "tsc  --project tsconfig.local-dev.json && node ./dist/local-dev/create-cloud-task.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@google-cloud/functions-framework": "^3.1.3"
+    "@google-cloud/functions-framework": "^3.1.3",
+    "@google-cloud/tasks": "^3.1.1",
+    "@grpc/grpc-js": "^1.8.10"
   },
   "devDependencies": {
     "@types/jest": "^29.4.0",

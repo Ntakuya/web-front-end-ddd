@@ -3,7 +3,8 @@ import supertest from 'supertest'
 describe('typescriptFunction', () => {
   it('should return 200', async () => {
     const { testServer } = await setup()
-    await testServer.post('/').set('Content-Type', 'application/json').expect('file changed!!').expect(200)
+    const result = { result: 'file changed!!' }
+    await testServer.post('/').set('Content-Type', 'application/json').expect(200).expect(JSON.stringify(result))
   })
 })
 

@@ -1,12 +1,12 @@
 import { typescriptFunctionHandler } from '../../src/handlers/typescript-function-handler'
 
 describe('typescriptFunctionHandler', () => {
-  it('should return string', () => {
-    const result = setup()
+  it('should return string', async () => {
+    const result = await setup()
     expect(result).toBe('file changed!!')
   })
 })
 
-function setup() {
-  return typescriptFunctionHandler()
+async function setup() {
+  return await typescriptFunctionHandler()
 }
