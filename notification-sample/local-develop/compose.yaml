@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  dataabse:
+    build:
+      context: ./local-develop/docker
+      dockerfile: dataabse.dockerfile
+    tty: true
+    restart: 'always'
+    networks:
+      - local
+
+networks:
+  local: {}
+
+volumes:
+  database: {}
